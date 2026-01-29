@@ -1,0 +1,41 @@
+.item-detail {
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.item-detail__top {
+    display: flex;
+    gap: 40px;
+}
+
+.item-detail__image {
+    width: 400px;
+    aspect-ratio: 1 / 1;
+    background: #eee;
+    overflow: hidden;
+}
+
+.item-detail__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.item-detail__placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.item-detail__info {
+    flex: 1;
+}
+
+.tag {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #ddd;
+    margin-right: 4px;
+    border-radius: 4px;
+}
