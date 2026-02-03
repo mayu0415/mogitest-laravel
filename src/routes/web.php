@@ -20,11 +20,14 @@ use App\Http\Controllers\ProfileController;
 Route::get('/', [ItemController::class, 'index'])->name('index');
 
 // 詳細
-Route::get('/item/{item}', [ItemController::class, 'show'])->name('item.show');
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('item');
+
+//いいね
+Route::post('/item/{item}', [ItemController::class, 'favorite'])->name('item.favorite');
 
 // 出品
-Route::get('/sell', [ItemController::class, 'create'])->name('sell');
-Route::post('/sell', [ItemController::class, 'store'])->name('sell.store');
+Route::get('/sell', [ItemController::class, 'create'])->middleware('auth')->name('sell');
+Route::post('/sell', [ItemController::class, 'store'])->middleware('auth')->name('sell.store');
 
 // 購入
 Route::get('/purchase/{item}', [OrderController::class, 'confirm'])->name('purchase');

@@ -29,7 +29,7 @@
                 <a href="{{ route('item', $item->id) }}" class="item-card">
                     <div class="item-card__image">
                         @if($item->image_path)
-                            <img src="{{ asset($item->image_path) }}" alt="{{ $item->name }}">
+                            <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
                         @else
                             <span class="item-card__placeholder">商品画像</span>
                         @endif

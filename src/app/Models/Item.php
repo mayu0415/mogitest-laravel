@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Favorite;
 
 class Item extends Model
 {
@@ -37,11 +38,6 @@ class Item extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class)->latest();
-    }
-
-    public function likes()
-    {
-        return $this->hasMany(Like::class);
     }
 
     public function favorites()

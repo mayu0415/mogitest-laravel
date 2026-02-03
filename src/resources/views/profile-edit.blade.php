@@ -16,24 +16,65 @@
 <main class="profile">
     <h1 class="profile__title">プロフィール設定</h1>
 
-    <div class="profile__image">
-        <div class="profile__circle"></div>
-        <button class="profile__image-button">画像を選択する</button>
-    </div>
 
-    <form method="POST" action="{{ route('profile.update') }}" class="profile__form">
+
+    <form action="{{ route('profile.update') }}" method="POST" class="profile__form" enctype="multipart/form-data">
         @csrf
-        <label>ユーザー名</label>
-        <input type="text">
+        
+        <div class="profile__image">
+            @if(!empty($user->profile_image))
+                <img
+                    src="{{ asset('storage/' . $user->profile_image) }}"
+                    alt="プロフィール画像"
+                    class="profile__circle"
+                >
+            @else
+                <div class="profile__circle"></div>
+            @endif
 
-        <label>郵便番号</label>
-        <input type="text">
+            <input
+                type="file"
+                name="profile_image"
+                id="profile_image"
+                class="profile__file"
+                accept="image/*"
+            >
+            <label for="profile_image" class="profile__image-button">
+                画像を選択する
+            </label>
+        </div>
 
-        <label>住所</label>
-        <input type="text">
+        <label class="profile_label">ユーザー名</label>
+        <input
+            type="text"
+            name="name"
+            class="profile_input"
+            value="{{ old('name', $user->name) }}"
+        >
 
-        <label>建物名</label>
-        <input type="text">
+        <label class="profile_label">郵便番号</label>
+        <input
+            type="text"
+            name="postal_code"
+            class="profile_input"
+            value="{{ old('postal_code', $user->postal_code) }}"
+        >
+
+        <label class="profile_label">住所</label>
+        <input
+            type="text"
+            name="address"
+            class="profile_input"
+            value="{{ old('address', $user->address) }}"
+        >
+
+        <label class="profile_label">建物名</label>
+        <input
+            type="text"
+            name="building_name"
+            class="profile_input"
+            value="{{ old('building_name', $user->building_name) }}"
+        >
 
         <button class="profile__submit">更新する</button>
     </form>

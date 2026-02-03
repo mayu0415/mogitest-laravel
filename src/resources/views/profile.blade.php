@@ -14,11 +14,12 @@
         <section class="profile__top">
             <div class="profile__user">
                 <div class="profile__avatar">
-                    @php
-                        $hasImage = !empty($user->profile_image);
-                    @endphp
-                    @if($hasImage)
-                        <img class="profile__avatar-img" src="{{ asset($user->profile_image) }}" alt="ユーザーアイコン">
+                    @if(!empty($user->profile_image))
+                        <img
+                            src="{{ asset('storage/' . $user->profile_image) }}"
+                            alt="ユーザーアイコン"
+                            class="profile__avatar-img"
+                        >
                     @else
                         <div class="profile__avatar-placeholder"></div>
                     @endif
@@ -48,40 +49,53 @@
                 購入した商品
             </a>
         </section>
+        {{-- 商品一覧 --}}
         <section class="profile__content">
-            {{-- 商品一覧 --}}
-            @if(isset($items) && $items->count() > 0)
-                <div class="items">
-                    @foreach($items as $item)
-                        <a href="{{ route('item', ['item' => $item->id]) }}" class="item-card">
-                            <div class="item-card__image">
-                                @if($item->image_path)
-                                    <img src="{{ asset($item->image_path) }}" alt="商品画像">
-                                @else
-                                    <div class="item-card__placeholder">商品画像</div>
-                                @endif
-                            </div>
-
-                            <div class="item-card__name">
-                                {{ $item->name }}
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            @else
-                {{-- ダミー表示 --}}
-                <div class="items">
-                    @for($i = 0; $i < 8; $i++)
-                        <div class="item-card">
-                            <div class="item-card__image">
-                                <div class="item-card__placeholder">商品画像</div>
-                            </div>
-                            <div class="item-card__name">商品名</div>
-                        </div>
-                    @endfor
-                </div>
-            @endif
-        </section>
+            {{-- 出品した商品 --}}
+            @if ($tab === 'sell')
+                @forelse ($sellItems as $item)
+                    <a href="{{ route('item', $item->id) }}" class="item-card">
+                        <div class="item-card__image">
+                            @if ($item->image_path)
+                                <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
+                            @else
+                                <span class="item-card__placeholder">商品画像</span>
+                            @endif
+                            {{-- 売り切れ表示 --}}
+                            @if ($item->is_sold)
+                                <span class="item-card__sold">SOLD</span>
+                            @endif
+                        </div>
+                        <p class="item-card__name">
+                            {{ $item->name }}
+                        </p>
+                    </a>
+                @empty
+                    <p>出品した商品はありません</p>
+                @endforelse
+            @endif
+            {{-- 購入した商品 --}}
+            @if ($tab === 'buy')
+                @forelse ($buyItems as $item)
+                    <a href="{{ route('item', $item->id) }}" class="item-card">
+                        <div class="item-card__image">
+                            @if ($item->image_path)
+                                <img src="{{ asset($item->image_path) }}" alt="{{ $item->name }}">
+                            @else
+                                <span class="item-card__placeholder">商品画像</span>
+                            @endif
+                            {{-- 購入済みは必ずSOLD --}}
+                            <span class="item-card__sold">SOLD</span>
+                        </div>
+                        <p class="item-card__name">
+                            {{ $item->name }}
+                        </p>
+                    </a>
+                @empty
+                    <p>購入した商品はありません</p>
+                @endforelse
+            @endif
+        </section>
     </main>
 </body>
 </html>

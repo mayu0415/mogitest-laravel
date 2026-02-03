@@ -48,3 +48,7 @@
     border: none;
     margin-top: 24px;
 }
+
+profile__file {
+    display: none;
+}
